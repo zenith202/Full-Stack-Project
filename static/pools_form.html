@@ -15,19 +15,116 @@
   </style>
 
   <script>
-    // Assignment 4: Add validation for pool form data
-    function validateData() {
-      var inputs = document.getElementById("pools_form").elements;
-      var phone = inputs["wifi"].value;
 
-      if (isNaN(phone)) {
-          text = "Invalid Phone number. Has to be a 10 digit number without hyphens.";
+    function isNumerical(value) {
+      if (isNaN(value)) {
+        // value not a number
+        return false;
+      }
+      return true;
+    }
+
+    function checkWifi(wifi) {
+      if (isNaN(wifi)){
+        // wifi not a number, change to lowercase
+        var lowercase = wifi.toLowerCase();
+        if (lowercase === "yes" || lowercase === "no") {
+          return true;
+        } else {
+          text = "Wifi has to be yes or no.";
           document.getElementById("error").innerHTML = text;
           console.log(text);
           return false;
-      } else {
-          return true;
+        }
       }
+      // wifi is a number, return false
+      text = "Wifi cannot be a number has to be yes or no.";
+      document.getElementById("error").innerHTML = text;
+      console.log(text);
+      return false;
+    }
+
+    // Assignment 4: Add validation for pool form data
+    function validateData() {
+      var inputs = document.getElementById("pools_form").elements;
+      var wifi = inputs["wifi"].value;
+      var district = inputs["district"].value;
+      var computers = inputs["computers"].value;
+      
+      // all are empty
+      if (!wifi && !district && !computers) {
+        return true;
+      }
+
+      // district and computer empty
+      if (!district && !computers) {
+        // wifi not empty
+        return checkWifi(wifi);
+      }
+
+      // wifi and computer empty
+      if (!wifi && !computers) {
+        // district not empty
+        if (isNumerical(district)) {
+          return true;
+        }
+        text = "District must be a number.";
+        document.getElementById("error").innerHTML = text;
+        console.log(text);
+        return false;
+      }
+
+      if (!wifi && !district) {
+        if (isNumerical(computers)) {
+          return true;
+        }
+        text = "Computers must be a number.";
+        document.getElementById("error").innerHTML = text;
+        console.log(text);
+        return false;
+      }
+
+      if (!computers) {
+        // wifi and district have values
+        if (isNumerical(district)) {
+          return checkWifi(wifi);
+        }
+        text = "District must be a number.";
+        document.getElementById("error").innerHTML = text;
+        console.log(text);
+        return false;
+      }
+
+      if (!district) {
+        // wifi and computer have values
+        if (isNumerical(computers)) {
+          return checkWifi(wifi);
+        }
+        text = "Computers must be a number.";
+        document.getElementById("error").innerHTML = text;
+        console.log(text);
+        return false;
+      }
+
+      if (!wifi) {
+        // computer and district have values
+        if (isNumerical(computers) && isNumerical(district)) {
+          return true;
+        }
+        text = "Computers or district is not a number.";
+        document.getElementById("error").innerHTML = text;
+        console.log(text);
+        return false;
+      }
+
+      // none empty, check all
+      if (isNumerical(computers) && isNumerical(district)) {
+          return checkWifi(wifi);
+      }
+      text = "Computers or district is not a number.";
+      document.getElementById("error").innerHTML = text;
+      console.log(text);
+      return false;
     }
   </script>
 
@@ -39,19 +136,19 @@
   <div class="container-fluid" style="background-color:transparent !important" style="text-align:center">
     <form action="search_libraries" method="post" id="pools_form" onsubmit="return validateData()">
         <label for="district"><b>District</b></label>
-        <input type="text" name="district" required>
+        <input type="text" name="district" >
 
         <br>
         <br>
 
         <label for="computers"><b>Computers</b></label>
-        <input type="text" name="computers" required>
+        <input type="text" name="computers">
 
         <br>
         <br>
 
         <label for="wifi"><b>Wifi</b></label>
-        <input type="text" name="wifi" required>
+        <input type="text" name="wifi" >
 
         <button type="submit">Add</button>
     </form>
