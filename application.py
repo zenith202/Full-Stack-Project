@@ -66,8 +66,6 @@ def get_libraries():
         
         currentDistrict = int(currentDistrict)
 
-        # print("currentComputers type is", type(currentComputers), "currentDistrict type is", type(currentDistrict))
-        # print("computers type is", type(computers), "district type is", type(district))
         # if this library matches the search criteria, append it to the new list
         if wifi:
             print("Wifi if")
@@ -108,6 +106,10 @@ def get_libraries():
         libraryDict["name"] = library.get('name')
         libraryDict["phone"] = library.get('phone')
         libraryDict["human_address"] = library.get('address').get('human_address')
+        # added this
+        libraryDict["district"] = district
+        libraryDict["computers"] = computers
+        libraryDict["wifi"] = wifi
         return_list.append(libraryDict)
 
     return json.dumps(return_list)
