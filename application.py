@@ -1,8 +1,15 @@
-import json
+
 
 from flask import request
 from flask import Flask, render_template
+import requests, json, os
 
+app_token = os.environ.get('APP_TOKEN')
+# url = "https://data.austintexas.gov/resource/tc36-hn4j.json?$$app_token=" + app_token
+url = "https://data.austintexas.gov/resource/tc36-hn4j.json?$$app_token=0JoiklSJY0REW0qECZAITOz61"
+data = requests.get(url=url)
+data_json = data.json()
+data_list = json.loads(json.dumps(data_json))
 
 application = Flask(__name__)
 app = application
@@ -13,13 +20,97 @@ def get_libraries():
 
     # Assignment 4: Insert Pool into database.
     # Extract all the form fields
-    pool_name = request.form['district']
+    wifi = request.form['wifi']
     computers = request.form['computers']
-    print("District:" + pool_name)
-    print("Status:" + computers)
+    district = request.form['district']
+    print("Wifi:" + wifi)
+    print("Computers:" + computers)
+    print("District:" + district)
 
     # Insert into database.
+    if not computers:
+        computers = -1
+    else:
+        computers = int(computers)
 
+    if not district:
+        district = -1
+    else:
+        district = int(district)
+    
+    if wifi:
+        wifi = wifi.lower()
+        if wifi == "yes":
+            wifi = "Yes"
+        elif wifi == "no":
+                wifi = "no"
+
+    print("wifi after proccessed is " + wifi)
+    
+    filtered_list = []
+
+    for library in data_list:
+        # get the wifi, computers, district of this library
+        currentWifi = library.get('wifi')
+        currentComputers = library.get('computers')
+        currentDistrict = library.get('district')
+        addLibrary = False
+
+        # check for None
+        if currentComputers == None:
+            currentComputers = -1
+        
+        currentComputers = int(currentComputers)
+        if currentDistrict == None:
+            currentDistrict = -1
+        
+        currentDistrict = int(currentDistrict)
+
+        # print("currentComputers type is", type(currentComputers), "currentDistrict type is", type(currentDistrict))
+        # print("computers type is", type(computers), "district type is", type(district))
+        # if this library matches the search criteria, append it to the new list
+        if wifi:
+            print("Wifi if")
+            if computers >= 0:
+                if district > 0:
+                    if currentWifi == wifi and currentComputers == computers and currentDistrict == district:
+                        print('wifi, computers, district')
+                        addLibrary = True
+                elif currentWifi == wifi and currentComputers == computers:
+                    print('wifi, computers')
+                    addLibrary = True
+            elif district > 0:
+                if currentWifi == wifi and currentDistrict == district:
+                    addLibrary = True
+            elif currentWifi == wifi:
+                print('wifi')
+                addLibrary = True
+        elif computers >= 0:
+            print("computers if")
+            if district > 0:
+                if currentComputers == computers and currentDistrict == district:
+                    addLibrary = True
+            elif currentComputers == computers:
+                print("Should hit here")
+                addLibrary = True
+        elif district > 0:
+            print("district if")
+            if currentDistrict == district:
+                addLibrary = True
+
+        if addLibrary:
+            filtered_list.append(library)
+
+    # now extract the wanted info from filtered_list
+    return_list = []
+    for library in filtered_list:
+        libraryDict = dict()
+        libraryDict["name"] = library.get('name')
+        libraryDict["phone"] = library.get('phone')
+        libraryDict["human_address"] = library.get('address').get('human_address')
+        return_list.append(libraryDict)
+
+    return json.dumps(return_list)
 
     return render_template('pool_added.html')
 
