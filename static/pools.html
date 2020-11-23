@@ -61,9 +61,12 @@
     thead.className = "thead-dark"
 
     headerRow = {}
-    headerRow["Name"] = "Name"
-    headerRow["Timings"] = "Timings"
-    headerRow["Status"] = "Status"
+    headerRow["name"] = "name"
+    headerRow["phone"] = "phone"
+    headerRow["human_address"] = "human_address"
+    headerRow["district"] = "district"
+    headerRow["computers"] = "computers"
+    headerRow["wifi"] = "wifi"
 
     createRow("thead")
     fontWeight = "bold"
@@ -85,23 +88,44 @@
     var nameCol = document.createElement("TD");
     nameCol.style.fontWeight = fontWeight;
     nameCol.class = "col px-md-5";
-    var nameData = document.createTextNode(data.Name);
+    var nameData = document.createTextNode(data.name);
     nameCol.appendChild(nameData);
     document.getElementById(rowId).appendChild(nameCol);
 
-    var timingCol = document.createElement("TD");
-    timingCol.style.fontWeight = fontWeight;
-    timingCol.class = "col px-md-5";
-    var timingData = document.createTextNode(data.Timings);
-    timingCol.appendChild(timingData);
-    document.getElementById(rowId).appendChild(timingCol);
+    var phoneCol = document.createElement("TD");
+    phoneCol.style.fontWeight = fontWeight;
+    phoneCol.class = "col px-md-5";
+    var phoneData = document.createTextNode(data.phone);
+    phoneCol.appendChild(phoneData);
+    document.getElementById(rowId).appendChild(phoneCol);
 
-    var statusCol = document.createElement("TD");
-    statusCol.style.fontWeight = fontWeight;
-    statusCol.class = "col px-md-5";
-    var statusData = document.createTextNode(data.Status);
-    statusCol.appendChild(statusData);
-    document.getElementById(rowId).appendChild(statusCol);
+    var addressCol = document.createElement("TD");
+    addressCol.style.fontWeight = fontWeight;
+    addressCol.class = "col px-md-5";
+    var addressData = document.createTextNode(data.human_address);
+    addressCol.appendChild(addressData);
+    document.getElementById(rowId).appendChild(addressCol);
+
+    var districtCol = document.createElement("TD");
+    districtCol.style.fontWeight = fontWeight;
+    districtCol.class = "col px-md-5";
+    var districtData = document.createTextNode(data.district);
+    districtCol.appendChild(districtData);
+    document.getElementById(rowId).appendChild(districtCol);
+
+    var computersCol = document.createElement("TD");
+    computersCol.style.fontWeight = fontWeight;
+    computersCol.class = "col px-md-5";
+    var computersData = document.createTextNode(data.computers);
+    computersCol.appendChild(computersData);
+    document.getElementById(rowId).appendChild(computersCol);
+
+    var wifiCol = document.createElement("TD");
+    wifiCol.style.fontWeight = fontWeight;
+    wifiCol.class = "col px-md-5";
+    var wifiData = document.createTextNode(data.wifi);
+    wifiCol.appendChild(wifiData);
+    document.getElementById(rowId).appendChild(wifiCol);
   }
 </script>
 

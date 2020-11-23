@@ -123,9 +123,12 @@ def get_pools():
     # Query the database to pull all the pools
     # Sample pool -- Delete this from final output.
     pool = {}
-    pool['Name'] = 'Barton Springs'
-    pool['Timings'] = 'Friday - Sunday'
-    pool['Status'] = 'Open'
+    pool['name'] = 'Barton Springs'
+    pool['phone'] = 'Friday - Sunday'
+    pool['human_address'] = 'Open'
+    pool['district'] = str(3)
+    pool['computers'] = str(7)
+    pool['wifi'] = 'Yes'
     all_pools.append(pool)
     return json.dumps(all_pools)
 
