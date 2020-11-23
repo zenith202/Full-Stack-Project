@@ -114,9 +114,9 @@ def get_libraries():
         libraryDict["phone"] = library.get('phone')
         libraryDict["human_address"] = library.get('address').get('human_address')
         # added this
-        libraryDict["district"] = district
-        libraryDict["computers"] = computers
-        libraryDict["wifi"] = wifi
+        libraryDict["district"] = library.get('district')
+        libraryDict["computers"] = library.get('computers')
+        libraryDict["wifi"] = library.get('wifi')
         return_list.append(libraryDict)
 
     global_list = return_list
