@@ -14,10 +14,17 @@ data_list = json.loads(json.dumps(data_json))
 application = Flask(__name__)
 app = application
 all_pools = []
+global_list = []
+wifi = ""
+computers = ""
+district = ""
 
 @app.route("/static/search_libraries", methods=['POST'])
 def get_libraries():
-
+    global wifi
+    global computers
+    global district
+    global global_list
     # Assignment 4: Insert Pool into database.
     # Extract all the form fields
     wifi = request.form['wifi']
@@ -112,13 +119,38 @@ def get_libraries():
         libraryDict["wifi"] = wifi
         return_list.append(libraryDict)
 
-    return json.dumps(return_list)
+    global_list = return_list
+    return render_template('pools2.html')
+    # return render_template('pool_added.html')
 
-    return render_template('pool_added.html')
-
+@app.route("/sanity")
+def sanity():
+    global wifi
+    global computers
+    global district
+    global global_list
+    print("sanity")
+    print("Wifi:" + wifi)
+    print("Computers:" + str(computers))
+    print("District:" + str(district))
+    print(global_list)
+    # Assignment 4: 
+    # Query the database to pull all the pools
+    # Sample pool -- Delete this from final output.
+    pool = {}
+    pool['name'] = 'Sanity'
+    pool['phone'] = 'God knows'
+    pool['human_address'] = 'Open'
+    pool['district'] = str(3)
+    pool['computers'] = str(7)
+    pool['wifi'] = 'Yes'
+    all_pools.append(pool)
+    # return json.dumps(all_pools)
+    return json.dumps(global_list)
 
 @app.route("/pools")
 def get_pools():
+    
     # Assignment 4: 
     # Query the database to pull all the pools
     # Sample pool -- Delete this from final output.
