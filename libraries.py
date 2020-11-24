@@ -6,7 +6,6 @@ import requests, json, os
 
 app_token = os.environ.get('APP_TOKEN')
 url = "https://data.austintexas.gov/resource/tc36-hn4j.json?$$app_token=" + app_token
-# url = "https://data.austintexas.gov/resource/tc36-hn4j.json?$$app_token=0JoiklSJY0REW0qECZAITOz61"
 data = requests.get(url=url)
 data_json = data.json()
 data_list = json.loads(json.dumps(data_json))
