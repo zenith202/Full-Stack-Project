@@ -59,7 +59,7 @@
       // district and computer empty
       if (!district && !computers) {
         // wifi not empty
-        return checkWifi(wifi);
+        return checkWifi(wifi.trim());
       }
 
       // wifi and computer empty
@@ -98,7 +98,7 @@
       if (!district) {
         // wifi and computer have values
         if (isNumerical(computers)) {
-          return checkWifi(wifi);
+          return checkWifi(wifi.trim());
         }
         text = "Computers must be a number.";
         document.getElementById("error").innerHTML = text;
@@ -119,7 +119,7 @@
 
       // none empty, check all
       if (isNumerical(computers) && isNumerical(district)) {
-          return checkWifi(wifi);
+          return checkWifi(wifi.trim());
       }
       text = "Computers or district is not a number.";
       document.getElementById("error").innerHTML = text;

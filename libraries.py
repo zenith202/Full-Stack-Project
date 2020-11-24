@@ -37,7 +37,7 @@ def get_libraries():
         district = int(district)
     
     if wifi:
-        wifi = wifi.lower()
+        wifi = wifi.strip().lower()
         if wifi == "yes":
             wifi = "Yes"
         elif wifi == "no":
