@@ -37,6 +37,9 @@
           return false;
         }
       }
+      if (!wifi.trim().length) {
+        return true;
+      }
       // wifi is a number, return false
       text = "Wifi cannot be a number has to be yes or no.";
       document.getElementById("error").innerHTML = text;

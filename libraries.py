@@ -26,6 +26,13 @@ def get_libraries():
     print("Computers:" + computers)
     print("District:" + district)
 
+    if wifi.isspace():
+        wifi = ""
+    if computers.isspace():
+        computers = ""
+    if district.isspace():
+        district = ""
+
     # Insert into database.
     if not computers:
         computers = -1
