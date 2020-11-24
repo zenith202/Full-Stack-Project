@@ -1,7 +1,7 @@
 
 
 from flask import request
-from flask import Flask, render_template
+from flask import Flask, render_template, session
 import requests, json, os
 
 app_token = os.environ.get('APP_TOKEN')
@@ -13,19 +13,11 @@ data_list = json.loads(json.dumps(data_json))
 
 application = Flask(__name__)
 app = application
+app.secret_key = "sanity"
 
-global_list = []
-wifi = ""
-computers = ""
-district = ""
 
 @app.route("/static/search_libraries", methods=['POST'])
 def get_libraries():
-    global wifi
-    global computers
-    global district
-    global global_list
-
     # Extract all the form fields
     wifi = request.form['wifi']
     computers = request.form['computers']
@@ -108,6 +100,8 @@ def get_libraries():
 
     # now extract the wanted info from filtered_list
     return_list = []
+    session['list'] = []
+    sessionList = session['list']
     for library in filtered_list:
         libraryDict = dict()
         libraryDict["name"] = library.get('name')
@@ -117,15 +111,14 @@ def get_libraries():
         libraryDict["district"] = library.get('district')
         libraryDict["computers"] = library.get('computers')
         libraryDict["wifi"] = library.get('wifi')
-        return_list.append(libraryDict)
+        sessionList.append(libraryDict)
 
-    global_list = return_list
     return render_template('display_libraries.html')
 
 @app.route("/display_libraries")
 def sanity():
-    global global_list
-    return json.dumps(global_list)
+    sessionList = session['list']
+    return json.dumps(sessionList)
 
 
 @app.route("/")
