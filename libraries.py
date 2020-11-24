@@ -5,6 +5,7 @@ from flask import Flask, render_template, session
 import requests, json, os
 
 app_token = os.environ.get('APP_TOKEN')
+secret = os.environ.get('SECRET_KEY')
 url = "https://data.austintexas.gov/resource/tc36-hn4j.json?$$app_token=" + app_token
 data = requests.get(url=url)
 data_json = data.json()
@@ -12,7 +13,7 @@ data_list = json.loads(json.dumps(data_json))
 
 application = Flask(__name__)
 app = application
-app.secret_key = "sanity"
+app.secret_key = secret
 
 
 @app.route("/static/search_libraries", methods=['POST'])
